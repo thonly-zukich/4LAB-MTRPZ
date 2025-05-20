@@ -2,6 +2,10 @@ from fastapi import FastAPI
 import httpx
 from sqlmodel import SQLModel, Session, create_engine, select
 from models import Cat
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
+
+import os
 
 app = FastAPI()
 
@@ -70,3 +74,13 @@ def get_top_cats():
         statement = select(Cat).order_by(Cat.votes.desc()).limit(5)
         results = session.exec(statement).all()
         return results
+app.mount("/js", StaticFiles(directory="static/js"), name="js")
+app.mount("/css", StaticFiles(directory="static/css"), name="css")
+
+@app.get("/index.html")
+def serve_index():
+    return FileResponse("index.html")
+
+@app.get("/favicon.ico")
+def favicon():
+    return FileResponse("favicon.ico") if os.path.exists("favicon.ico") else {}
