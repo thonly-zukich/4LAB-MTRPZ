@@ -1,0 +1,45 @@
+
+    body {
+      background: #fffaf0;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .cat-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    .cat-card {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 250px;
+      text-align: center;
+      padding: 15px;
+    }
+    .cat-card img {
+      max-width: 100%;
+      border-radius: 10px;
+    }
+    .cat-fact {
+      margin: 10px 0;
+      font-size: 14px;
+    }
+    .cat-votes {
+      font-size: 18px;
+      font-weight: bold;
+      color: #ff4757;
+    }
+    .back {
+      display: block;
+      margin: 20px auto;
+      text-align: center;
+      color: #333;
+      text-decoration: none;
+    }
