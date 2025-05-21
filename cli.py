@@ -6,25 +6,25 @@ BASE_URL = "http://127.0.0.1:8000"
 def get_random():
     response = requests.get(f"{BASE_URL}/random_cat")
     data = response.json()
-    print("📷:", data["image_url"])
-    print("📖:", data["fact"])
+    print("Image:", data["image_url"], flush=True)
+    print("Fact:", data["fact"], flush=True)
 
 def get_top():
     response = requests.get(f"{BASE_URL}/top")
     data = response.json()
     for i, cat in enumerate(data, 1):
-        print(f"\n#{i}:")
-        print("📷:", cat["image_url"])
-        print("📖:", cat["fact"])
-        print("❤️:", cat["votes"])
+        print(f"\n#{i}:", flush=True)
+        print("Image:", cat["image_url"], flush=True)
+        print("Fact:", cat["fact"], flush=True)
+        print("Votes:", cat["votes"], flush=True)
 
 def get_log():
     response = requests.get(f"{BASE_URL}/votes")
     data = response.json()
     for vote in data:
-        print(f"\n🕒 {vote['timestamp']}")
-        print("📷:", vote["image_url"])
-        print("📖:", vote["fact"])
+        print(f"\nTime: {vote['timestamp']}", flush=True)
+        print("Image:", vote["image_url"], flush=True)
+        print("Fact:", vote["fact"], flush=True)
 
 def vote_random():
     # Отримуємо кота
@@ -36,11 +36,11 @@ def vote_random():
     })
 
     if vote_response.status_code == 200:
-        print("\n✅ Голос зараховано!")
-        print("📷:", cat["image_url"])
-        print("📖:", cat["fact"])
+        print("\nSuccess: Vote recorded", flush=True)
+        print("Image:", cat["image_url"], flush=True)
+        print("Fact:", cat["fact"], flush=True)
     else:
-        print("❌ Помилка при голосуванні.")
+        print("Error: Voting failed", flush=True)
 
 # CLI логіка
 parser = argparse.ArgumentParser(description="CLI для Котопедії")
