@@ -1,29 +1,31 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Котопедія — Тіндер котів</title>
-  <link rel="stylesheet" href="static/css/style.css">
-  
+  <meta charset="UTF-8">
+  <title>Котопедія</title>
+  <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
+  <div class="container">
+    <div class="card">
+      <h1 class="title">🐈 Котячий Tinder</h1>
 
-<div class="card">
-  <img id="cat-image" src="" alt="Котик">
-  <p id="cat-fact">Завантаження факту...</p>
-  <div class="buttons">
-    <button class="like" onclick="voteCat()">❤️</button>
-    <button class="skip" onclick="loadCat()">⏭️</button>
+      <img src="" alt="котик" id="cat-image" class="main-cat">
+
+      <p id="cat-fact" class="cat-fact">Завантаження факту...</p>
+
+      <div class="main-buttons-wrapper">
+        <button class="like-button" onclick="voteCat()">❤️</button>
+        <button class="skip-button" onclick="loadCat()">⏭️</button>
+      </div>
+
+      <div class="nav-group">
+        <a href="/top.html" class="top-link">Подивитись ТОП котиків</a>
+        <a href="/votes.html" class="log-link">Журнал голосів</a>
+      </div>
+    </div>
   </div>
-  <div style="margin-top: 20px;">
-  <a href="/top.html" class="buttonTop" >
-    🏆 Подивитись ТОП котиків
-  </a>
-</div>
-</div>
 
-
-<script src="static/js/main.js"></script>
+  <script src="/static/js/main.js"></script>
 </body>
 </html>

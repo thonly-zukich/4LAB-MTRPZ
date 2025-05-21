@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Журнал голосів</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1 class="title">🗳 Журнал голосів</h1>
+
+      <button onclick="clearVotes()" class="danger-button">🧹 Очистити всі голоси</button>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Час</th>
+              <th>Зображення</th>
+              <th>Факт</th>
+            </tr>
+          </thead>
+          <tbody id="votes-table">
+            <tr><td colspan="3">Завантаження...</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <a href="/index.html" class="back-link">← Назад до котика</a>
+    </div>
+  </div>
+
+  <script src="/static/js/votes.js"></script>
+</body>
+</html>

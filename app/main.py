@@ -1,27 +1,29 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 import httpx
 from sqlmodel import SQLModel, Session, create_engine, select
-from app.models import Cat
+from app.models import Cat, VoteLog
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
-import os
 from fastapi.templating import Jinja2Templates
-from fastapi.requests import Request
+from sqlalchemy import text
+from datetime import datetime, timedelta
+import os
 
 app = FastAPI()
 
+# Підключення статики та шаблонів
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
-
 templates = Jinja2Templates(directory="app/templates")
 
-# --- Константи для зовнішніх API ---
+# 🔧 Шлях до БД
+DATABASE_URL = "sqlite:///app/kotiki.db"
+engine = create_engine(DATABASE_URL)
+
+# --- API котів ---
 CAT_IMAGE_URL = "https://api.thecatapi.com/v1/images/search"
 CAT_FACT_URL = "https://catfact.ninja/fact"
 
-# --- БД ---
-DATABASE_URL = "sqlite:///kotiki.db"
-engine = create_engine(DATABASE_URL)
-
+# --- Створення таблиць ---
 @app.on_event("startup")
 def on_startup():
     SQLModel.metadata.create_all(engine)
@@ -47,15 +49,21 @@ def get_random_cat():
         return {"error": str(e)}
 
 @app.post("/vote")
-def vote_for_cat(image_url: str, fact: str):
+async def vote_for_cat(request: Request):
+    data = await request.json()
+    image_url = data.get("image_url")
+    fact = data.get("fact")
+
     with Session(engine) as session:
-        # Завжди створюємо нового кота з 1 голосом
         new_cat = Cat(image_url=image_url, fact=fact, votes=1)
         session.add(new_cat)
+
+        # UTC+3:00 (Київ)
+        log = VoteLog(image_url=image_url, fact=fact, timestamp=datetime.utcnow() + timedelta(hours=3))
+        session.add(log)
+
         session.commit()
         return {"message": "Голос зараховано!"}
-
-from sqlalchemy import text
 
 @app.get("/top")
 def get_top_cats():
@@ -77,7 +85,7 @@ def get_top_cats():
         ]
         return cats
 
-
+# --- HTML ---
 @app.get("/index.html")
 def serve_index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
@@ -86,6 +94,27 @@ def serve_index(request: Request):
 def serve_top(request: Request):
     return templates.TemplateResponse("top.html", {"request": request})
 
+@app.get("/votes.html")
+def serve_votes_page(request: Request):
+    return templates.TemplateResponse("votes.html", {"request": request})
+
 @app.get("/favicon.ico")
 def favicon():
     return FileResponse("favicon.ico") if os.path.exists("favicon.ico") else {}
+
+# --- JSON API ---
+@app.get("/votes")
+def get_votes():
+    with Session(engine) as session:
+        statement = select(VoteLog).order_by(VoteLog.timestamp.desc())
+        results = session.exec(statement).all()
+        return results
+
+# --- Очистити всі голоси
+@app.post("/clear_votes")
+def clear_votes():
+    with Session(engine) as session:
+        session.exec(text("DELETE FROM votelog"))
+        session.exec(text("DELETE FROM cat"))
+        session.commit()
+        return {"message": "Всі голоси видалено"}

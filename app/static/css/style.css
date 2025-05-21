@@ -1,63 +1,212 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #ffe4e1;
+  margin: 0;
+  padding: 0;
+}
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #ffe4e1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 20px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.2);
-      text-align: center;
-      max-width: 400px;
-    }
-    img {
-      max-width: 100%;
-      border-radius: 10px;
-    }
-    p {
-      margin: 15px 0;
-    }
-    .buttons {
-      display: flex;
-      justify-content: space-around;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 18px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .like {
-      background: #ff6b81;
-      color: white;
-    }
-    .skip {
-      background: #ccc;
-    }
-    .like:hover {
-      background: #ff4757;
-    }
-    .skip:hover {
-      background: #aaa;
-    }
+/* === ГОЛОВНА СТОРІНКА === */
 
-    .buttonTop {
-      
-      background: #70a1ff;
-      color: white;
-      padding: 10px 20px;
-      text-decoration: none;
-      border-radius: 10px;
-      font-weight: bold;
-      display: inline-block;
-  
-    }
- 
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.card {
+  background: #fff0f0;
+  padding: 30px;
+  border-radius: 25px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 480px;
+  text-align: center;
+}
+
+.main-cat {
+  max-width: 100%;
+  height: auto;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  display: block;
+  margin: 0 auto 20px auto;
+}
+
+.main-buttons-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 40px auto;
+  width: 100%;
+  max-width: 400px;
+}
+
+.big-like,
+.big-skip {
+  width: 120px;
+  height: 120px;
+  font-size: 50px;
+  border: none;
+  border-radius: 24px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+  transition: 0.2s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.big-like {
+  background-color: #ffe4e4;
+  color: #c40000;
+}
+
+.big-skip {
+  background-color: #e2edff;
+  color: #003366;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.nav-buttons a {
+  background-color: #d8e3ff;
+  color: #1e2a78;
+  padding: 14px 26px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: 0.2s;
+}
+
+.nav-buttons a:hover {
+  background-color: #c7d9ff;
+  transform: scale(1.03);
+}
+
+/* === АДАПТАЦІЯ === */
+@media (max-width: 500px) {
+  .main-buttons-wrapper {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+/* === ТАБЛИЦІ ДЛЯ TOP.html ТА VOTES.html === */
+
+.table-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+table {
+  width: 100%;
+  max-width: 1000px;
+  border-collapse: collapse;
+  background-color: #fffafc;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+th, td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #f0dede;
+}
+
+th {
+  background-color: #fff5f5;
+  font-weight: bold;
+}
+
+img.big-cat {
+  width: 120px;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* === КНОПКА ВИДАЛЕННЯ ГОЛОСІВ === */
+
+.danger-button {
+  background: #ffe0e0;
+  color: #a60000;
+  border: 2px solid #ffaaaa;
+  padding: 12px 20px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.danger-button:hover {
+  background: #ffc8c8;
+  transform: scale(1.02);
+}
+
+/* === ЗВОРОТНЕ ПОСИЛАННЯ === */
+
+.back-link {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+  color: #652f8b;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+.nav-group {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.nav-group a {
+  background-color: #d8e3ff;
+  color: #1e2a78;
+  padding: 14px 26px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-group a:hover {
+  background-color: #c7d9ff;
+  transform: scale(1.03);
+}
+
+.top-link::before {
+  content: "🏆";
+  font-size: 20px;
+}
+
+.log-link::before {
+  content: "📋";
+  font-size: 20px;
+}
