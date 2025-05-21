@@ -10,22 +10,78 @@
     <div class="card">
       <h1 class="title">🐈 Котячий Tinder</h1>
 
+      <!-- СПІНЕР -->
+      <img id="loading-spinner" src="/static/img/spinner.gif" alt="Завантаження..." class="spinner" style="display: none;">
+
+      <!-- ЗОБРАЖЕННЯ КОТА -->
       <img src="" alt="котик" id="cat-image" class="main-cat">
 
-      <p id="cat-fact" class="cat-fact">Завантаження факту...</p>
+      <!-- ФАКТ ПРО КОТА -->
+      <p id="cat-fact" class="cat-fact">Завантаження анкети...</p>
 
+      <!-- КНОПКИ -->
       <div class="main-buttons-wrapper">
         <button class="like-button" onclick="voteCat()">❤️</button>
         <button class="skip-button" onclick="loadCat()">⏭️</button>
       </div>
 
-      <div class="nav-group">
-        <a href="/top.html" class="top-link">Подивитись ТОП котиків</a>
-        <a href="/votes.html" class="log-link">Журнал голосів</a>
+      <!-- НАВІГАЦІЯ -->
+      <div class="nav-buttons">
+        <a href="/top.html">🏆 Подивитись ТОП котиків</a>
+        <a href="/votes.html">📋 Журнал голосів</a>
       </div>
     </div>
   </div>
 
-  <script src="/static/js/main.js"></script>
+  <script>
+    let currentCat = { image_url: "", fact: "" };
+
+    async function loadCat() {
+      const spinner = document.getElementById("loading-spinner");
+      const catImage = document.getElementById("cat-image");
+      const catFact = document.getElementById("cat-fact");
+
+      // Показати спінер і сховати кота
+      spinner.style.display = "block";
+      catImage.style.display = "none";
+      catFact.textContent = "Завантаження факту...";
+
+      try {
+        const response = await fetch('/random_cat');
+        const data = await response.json();
+
+        await new Promise(resolve => setTimeout(resolve, 500)); // тримати спінер 0.5с
+
+        // Оновити контент
+        catImage.src = data.image_url;
+        catImage.style.display = "block";
+        catFact.textContent = data.fact;
+        currentCat = data;
+
+      } catch (err) {
+        alert("Не вдалося завантажити кота 🐱");
+      } finally {
+        spinner.style.display = "none";
+      }
+    }
+
+    async function voteCat() {
+      try {
+        await fetch('/vote', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(currentCat)
+        });
+
+        alert("Голос зараховано! 🐾");
+        loadCat();
+      } catch (err) {
+        alert("Помилка при голосуванні 😿");
+      }
+    }
+
+    // Завантажити першого кота одразу
+    loadCat();
+  </script>
 </body>
 </html>

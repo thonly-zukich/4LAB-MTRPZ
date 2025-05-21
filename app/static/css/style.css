@@ -210,3 +210,17 @@ img.big-cat {
   content: "📋";
   font-size: 20px;
 }
+.image-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.spinner {
+  width: 64px;
+  height: 64px;
+  display: block;
+  margin: 0 auto 16px auto;
+  background: transparent;
+}
+
