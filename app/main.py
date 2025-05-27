@@ -11,26 +11,23 @@ import os
 
 app = FastAPI()
 
-# Підключення статики та шаблонів
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 templates = Jinja2Templates(directory="app/templates")
 
-# 🔧 Шлях до БД
 DATABASE_URL = "sqlite:///app/kotiki.db"
 engine = create_engine(DATABASE_URL)
 
-# --- API котів ---
+
 CAT_IMAGE_URL = "https://api.thecatapi.com/v1/images/search"
 CAT_FACT_URL = "https://catfact.ninja/fact"
 
-# --- Створення таблиць ---
 @app.on_event("startup")
 def on_startup():
     SQLModel.metadata.create_all(engine)
 
 @app.get("/")
-def read_root():
-    return {"message": "Привіт, котики!"}
+def serve_index(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
 @app.get("/random_cat")
 def get_random_cat():
@@ -85,7 +82,6 @@ def get_top_cats():
         ]
         return cats
 
-# --- HTML ---
 @app.get("/index.html")
 def serve_index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
@@ -102,7 +98,6 @@ def serve_votes_page(request: Request):
 def favicon():
     return FileResponse("favicon.ico") if os.path.exists("favicon.ico") else {}
 
-# --- JSON API ---
 @app.get("/votes")
 def get_votes():
     with Session(engine) as session:
@@ -110,7 +105,6 @@ def get_votes():
         results = session.exec(statement).all()
         return results
 
-# --- Очистити всі голоси
 @app.post("/clear_votes")
 def clear_votes():
     with Session(engine) as session:

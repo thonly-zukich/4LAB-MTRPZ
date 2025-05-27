@@ -10,22 +10,17 @@
     <div class="card">
       <h1 class="title">🐈 Котячий Tinder</h1>
 
-      <!-- СПІНЕР -->
       <img id="loading-spinner" src="/static/img/spinner.gif" alt="Завантаження..." class="spinner" style="display: none;">
 
-      <!-- ЗОБРАЖЕННЯ КОТА -->
       <img src="" alt="котик" id="cat-image" class="main-cat">
 
-      <!-- ФАКТ ПРО КОТА -->
       <p id="cat-fact" class="cat-fact">Завантаження анкети...</p>
 
-      <!-- КНОПКИ -->
       <div class="main-buttons-wrapper">
         <button class="like-button" onclick="voteCat()">❤️</button>
         <button class="skip-button" onclick="loadCat()">⏭️</button>
       </div>
 
-      <!-- НАВІГАЦІЯ -->
       <div class="nav-buttons">
         <a href="/top.html">🏆 Подивитись ТОП котиків</a>
         <a href="/votes.html">📋 Журнал голосів</a>
@@ -41,10 +36,9 @@
       const catImage = document.getElementById("cat-image");
       const catFact = document.getElementById("cat-fact");
 
-      // Показати спінер і сховати кота
       spinner.style.display = "block";
       catImage.style.display = "none";
-      catFact.textContent = "Завантаження факту...";
+      catFact.textContent = "Завантаження анкети...";
 
       try {
         const response = await fetch('/random_cat');
@@ -52,7 +46,6 @@
 
         await new Promise(resolve => setTimeout(resolve, 500)); // тримати спінер 0.5с
 
-        // Оновити контент
         catImage.src = data.image_url;
         catImage.style.display = "block";
         catFact.textContent = data.fact;
@@ -80,7 +73,6 @@
       }
     }
 
-    // Завантажити першого кота одразу
     loadCat();
   </script>
 </body>
